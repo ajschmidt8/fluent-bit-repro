@@ -62,3 +62,11 @@ sudo protocurl \
 ```
 
 The `opentelemetry` plugin that is configured to talk to the non-mTLS Grafana Tempo backend works without issue.
+
+## Summary of services/ports/outcomes
+
+| Service              | Port | Certs provided with protocurl? | Expected behavior |
+| :---------------- | :------: | ----: | ----: |
+| FluentBit         |   4318   | No   | Code 201 response at CLI, but fluentbit log shows failure to flush to tempo. No new trace appears. |
+| Tempo (no mTLS)   |   4319   | Yes  | No error; new trace appears in tempo |
+| Tempo (mTLS)      |   4320   | No   | No error; new trace appears in tempo |
