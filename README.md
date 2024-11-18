@@ -33,7 +33,7 @@ Start the containers:
 docker-compose up
 ```
 
-Send an example trace to Fluent Bit:
+From your local system, send an example trace to the Fluent Bit container:
 
 ```sh
 protocurl \
@@ -43,7 +43,7 @@ protocurl \
  -d @trace.json -I op -D
 ```
 
-This should cause the `opentelemetry` plugin that connects to the mTLS backend to throw the following error:
+The error behavior that we see triggering here is that the `opentelemetry` output plugin that connects to the mTLS backend throws the following error:
 
 ```
 [error] [output:opentelemetry:opentelemetry.1] tempo-mtls:4318, HTTP status=0
@@ -61,4 +61,4 @@ sudo protocurl \
   -d @trace.json -I op -D
 ```
 
-The `opentelemetry` plugin that is configured to talk to the non-mTLS Grafana Tempo backend works without issue.
+The `opentelemetry` output plugin that targets the non-mTLS Grafana Tempo backend works without issue.
