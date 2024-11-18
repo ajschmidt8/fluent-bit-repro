@@ -7,6 +7,7 @@ CA_CERT_NAME=ca.crt.pem
 
 init() {
   echo "Initializing..."
+  echo "\`sudo\` is required to remove the existing certificate files and to change the ownership of the generated certificate files for the Docker volumes."
   sudo rm -rf "${GENERATED_DIR}"
   mkdir "${GENERATED_DIR}"
   touch "${GENERATED_DIR}/index.txt"
