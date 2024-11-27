@@ -1,39 +1,11 @@
-networks:
-  default:
-    name: debug
-    driver: bridge
-
 services:
-  tempo:
-    image: &tempo_img grafana/tempo:2.6.1
-    container_name: tempo
-    command: ["-config.file=/etc/tempo.yaml"]
+  forwarder:
+    image: fluent/fluent-bit:3.2.1
     volumes:
-      - ./tempo.yaml:/etc/tempo.yaml
+      - ./forwarder.conf:/fluent-bit/etc/fluent-bit.conf
+  aggregator:
+    image: fluent/fluent-bit:3.2.1
     ports:
-      - "3200:3200"
-      - "4319:4318"
-    depends_on:
-      - fluentbit
-
-  tempo-mtls:
-    image: *tempo_img
-    container_name: tempo-mtls
-    command: ["-config.file=/etc/tempo-mtls.yaml"]
+      - "8888:8888"
     volumes:
-      - ./tempo-mtls.yaml:/etc/tempo-mtls.yaml
-      - ./certs/generated/tempo:/certs
-    ports:
-      - "3201:3200"
-      - "4320:4318"
-    depends_on:
-      - fluentbit
-
-  fluentbit:
-    image: fluent/fluent-bit:3.2
-    container_name: fluentbit
-    ports:
-      - 4318:4318
-    volumes:
-      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
-      - ./certs/generated/fb:/certs
+      - ./aggregator.conf:/fluent-bit/etc/fluent-bit.conf
